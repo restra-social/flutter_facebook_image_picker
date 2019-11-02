@@ -62,14 +62,14 @@ class PhotoGridState extends State<PhotoGrid> {
       child: Stack(
         children: [
           Positioned.fill(
-            child: FadeInImage(
+            child: photo.source.isNotEmpty ?  FadeInImage(
               image: NetworkImage(photo.source),
               placeholder: AssetImage(
                 'assets/loading.gif',
                 package: 'flutter_facebook_image_picker',
               ),
               fit: BoxFit.cover,
-            ),
+            ) : Container(),
           ),
           _isSelected(photo)
               ? Positioned(

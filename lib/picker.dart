@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_image_picker/model/album.dart';
 import 'package:flutter_facebook_image_picker/graph_api.dart';
-import 'package:flutter_facebook_image_picker/model/album_paging.dart';
 import 'package:flutter_facebook_image_picker/model/photo.dart';
-import 'package:flutter_facebook_image_picker/model/photo_paging.dart';
 import 'package:flutter_facebook_image_picker/ui/album_grid.dart';
 import 'package:flutter_facebook_image_picker/ui/photo_grid.dart';
 
@@ -91,7 +89,7 @@ class _FacebookImagePickerState extends State<FacebookImagePicker>
     AlbumPaging albums = await _client.fetchAlbums();
     setState(() {
       _albums.addAll(albums.data);
-      _albumsNextLink = albums.pagination.next;
+      _albumsNextLink = albums.paging.cursors.after;
     });
   }
 
@@ -102,7 +100,7 @@ class _FacebookImagePickerState extends State<FacebookImagePicker>
     AlbumPaging albums = await _client.fetchAlbums(_albumsNextLink);
     setState(() {
       _albums.addAll(albums.data);
-      _albumsNextLink = albums.pagination.next;
+      _albumsNextLink = albums.paging.next;
     });
   }
 
@@ -114,7 +112,7 @@ class _FacebookImagePickerState extends State<FacebookImagePicker>
         await _client.fetchPhotos(_selectedAlbum, _photosNextLink);
     setState(() {
       _photos.addAll(photos.data);
-      _photosNextLink = photos.pagination.next;
+      _photosNextLink = photos.paging.next;
     });
   }
 
@@ -123,7 +121,7 @@ class _FacebookImagePickerState extends State<FacebookImagePicker>
     setState(() {
       _selectedAlbum = album;
       _photos.addAll(photos.data);
-      _photosNextLink = photos.pagination.next;
+      _photosNextLink = photos.paging.next;
     });
     _controller.forward();
   }
